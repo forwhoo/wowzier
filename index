@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Welcome to IDK Discord. Solve the Wordle puzzle to gain access.">
+    <title>Welcome to IDK Discord</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #121212;
+            color: white;
+            overflow-x: hidden;
+        }
+
+        .container {
+            text-align: center;
+            max-width: 600px;
+            padding: 20px;
+            background: #1e1e1e;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            margin: 0 auto;
+            margin-top: 20vh;
+        }
+
+        h1 {
+            font-size: 3em;
+            margin-bottom: 10px;
+        }
+
+        p {
+            margin-bottom: 20px;
+            font-size: 1.2em;
+        }
+
+        .wordle-container {
+            display: grid;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .wordle-row {
+            display: flex;
+            justify-content: center;
+        }
+
+        .wordle-input {
+            width: 2.5em;
+            height: 2.5em;
+            margin: 0 5px;
+            font-size: 1.5em;
+            text-align: center;
+            background: #333;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            outline: none;
+            transition: transform 0.2s ease;
+        }
+
+        .wordle-input:focus {
+            transform: scale(1.1);
+        }
+
+        .submit-btn {
+            padding: 10px 20px;
+            font-size: 1em;
+            background-color: #e74c3c;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+
+        .submit-btn:hover {
+            transform: scale(1.1);
+            background-color: #c0392b;
+        }
+
+        .message {
+            font-size: 1.2em;
+            margin-top: 10px;
+            min-height: 1.5em;
+        }
+
+        .hidden-content {
+            display: none;
+            text-align: center;
+            padding: 20px;
+            background: #1e1e1e;
+            border-radius: 10px;
+            opacity: 0;
+            transform: translateY(100%);
+            transition: all 0.5s ease;
+        }
+
+        .hidden-content.show {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .typing-effect {
+            overflow: hidden;
+            white-space: nowrap;
+            margin: 0 auto;
+            border-right: 0.15em solid white;
+            font-size: 1.5em;
+            animation: typing 2s steps(40, end), blink-caret 0.75s step-end infinite;
+        }
+
+        @keyframes typing {
+            from { width: 0 }
+            to { width: 100% }
+        }
+
+        @keyframes blink-caret {
+            from, to { border-color: transparent }
+            50% { border-color: white }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>print("Hey Nerd")| </h1>
+        <p>print("solve, for a suprise :"))</p>
+        <div class="wordle-container" id="wordleContainer">
+            <div class="wordle-row" id="row1">
+                <input type="text" maxlength="1" class="wordle-input" id="row1input1">
+                <input type="text" maxlength="1" class="wordle-input" id="row1input2">
+                <input type="text" maxlength="1" class="wordle-input" id="row1input3">
+                <input type="text" maxlength="1" class="wordle-input" id="row1input4">
+                <input type="text" maxlength="1" class="wordle-input" id="row1input5">
+            </div>
+            <div class="wordle-row" id="row2">
+                <input type="text" maxlength="1" class="wordle-input" id="row2input1" disabled>
+                <input type="text" maxlength="1" class="wordle-input" id="row2input2" disabled>
+                <input type="text" maxlength="1" class="wordle-input" id="row2input3" disabled>
+                <input type="text" maxlength="1" class="wordle-input" id="row2input4" disabled>
+                <input type="text" maxlength="1" class="wordle-input" id="row2input5" disabled>
+            </div>
+            <div class="wordle-row" id="row3">
+                <input type="text" maxlength="1" class="wordle-input" id="row3input1" disabled>
+                <input type="text" maxlength="1" class="wordle-input" id="row3input2" disabled>
+                <input type="text" maxlength="1" class="wordle-input" id="row3input3" disabled>
+                <input type="text"                 maxlength="1" class="wordle-input" id="row3input4" disabled>
+                  <input type="text" maxlength="1" class="wordle-input" id="row3input5" disabled>
+                  </div>
+                  <div class="wordle-row" id="row4">
+                  <input type="text" maxlength="1" class="wordle-input" id="row4input1" disabled>
+                  <input type="text" maxlength="1" class="wordle-input" id="row4input2" disabled>
+                  <input type="text" maxlength="1" class="wordle-input" id="row4input3" disabled>
+                  <input type="text" maxlength="1" class="wordle-input" id="row4input4" disabled>
+                  <input type="text" maxlength="1" class="wordle-input" id="row4input5" disabled>
+                  </div>
+                  <div class="wordle-row" id="row5">
+                  <input type="text" maxlength="1" class="wordle-input" id="row5input1" disabled>
+                  <input type="text" maxlength="1" class="wordle-input" id="row5input2" disabled>
+                  <input type="text" maxlength="1" class="wordle-input" id="row5input3" disabled>
+                  <input type="text" maxlength="1" class="wordle-input" id="row5input4" disabled>
+                  <input type="text" maxlength="1" class="wordle-input" id="row5input5" disabled>
+                  </div>
+                  </div>
+                  <button class="submit-btn" onclick="checkWordle()">Enter</button>
+                  <div class="message" id="message"></div>
+                  </div>
+
+                  <div class="hidden-content" id="hiddenContent">
+                  <h2 class="typing-effect"></h2>
+                  </div>
+
+                  <script src="https://cdn.jsdelivr.net/npm/js-confetti@latest/dist/js-confetti.browser.js"></script>
+                  <script>
+                  const correctWord = "HELLO"; // The correct word for the Wordle game
+                  let currentRow = 1;
+                  const jsConfetti = new JSConfetti();
+
+                  function checkWordle() {
+                  let userWord = "";
+                  const inputs = [];
+                  for (let i = 1; i <= 5; i++) {
+                  const input = document.getElementById('row' + currentRow + 'input' + i);
+                  userWord += input.value.toUpperCase();
+                  inputs.push(input);
+                  }
+
+                  if (userWord === correctWord) {
+                  document.getElementById('hiddenContent').classList.add('show');
+                  document.getElementById('message').innerText = "";
+                  jsConfetti.addConfetti({
+                      emojis: ['🎉'],
+                      emojiSize: 70,
+                      confettiNumber: 40,
+                  });
+                  scrollToHiddenContent();
+                  } else {
+                  document.getElementById('message').innerText = "Incorrect. Please try again.";
+                  document.getElementById('hiddenContent').classList.remove('show');
+
+                  for (let i = 0; i < 5; i++) {
+                      if (userWord[i] === correctWord[i]) {
+                          inputs[i].classList.add('correct');
+                      } else if (correctWord.includes(userWord[i])) {
+                          inputs[i].classList.add('misplaced');
+                      } else {
+                          inputs[i].classList.add('incorrect');
+                      }
+                  }
+
+                  // Move to the next row
+                  if (currentRow < 5) {
+                      const nextRow = currentRow + 1;
+                      for (let i = 1; i <= 5; i++) {
+                          const nextInput = document.getElementById('row' + nextRow + 'input' + i);
+                          nextInput.disabled = false;
+                          nextInput.value = '';
+                          nextInput.classList.remove('correct', 'misplaced', 'incorrect');
+                      }
+                      document.getElementById('row' + nextRow + 'input1').focus();
+                      currentRow++;
+                  }
+                  }
+                  }
+
+                  function scrollToHiddenContent() {
+                  document.querySelector('.hidden-content').scrollIntoView({ behavior: 'smooth' });
+                  }
+
+                  // Typing effect function
+                  const welcomeMessage = "Hello, welcome to my website";
+                  let charIndex = 0;
+                  function typeEffect() {
+                  const typingElement = document.querySelector('.typing-effect');
+                  if (charIndex < welcomeMessage.length) {
+                  typingElement.textContent += welcomeMessage.charAt(charIndex);
+                  charIndex++;
+                  setTimeout(typeEffect, 50);
+                  }
+                  }
+
+                  // Simulate typing effect after scrolling
+                  window.addEventListener('scroll', () => {
+                  if (window.scrollY > window.innerHeight / 2) {
+                  document.getElementById('wordleContainer').style.display = 'none';
+                  scrollToHiddenContent();
+                  typeEffect();
+                  }
+                  });
+
+                  // Adding event listeners for key navigation, form submission, and input handling
+                  document.querySelectorAll('.wordle-input').forEach((input, index, inputs) => {
+                  input.addEventListener('input', () => {
+                  if (input.value.length === 1 && index < inputs.length - 1) {
+                      inputs[index + 1].focus();
+                  }
+                  input.style.caretColor = 'transparent'; // Hides the cursor
+                  });
+
+                  input.addEventListener('keydown', (e) => {
+                  if (e.key === 'ArrowLeft' && index > 0) {
+                      inputs[index - 1].focus();
+                  } else if (e.key === 'ArrowRight' && index < inputs.length - 1) {
+                      inputs[index + 1].focus();
+                  } else if (e.key === 'Backspace') {
+                      if (input.value.length === 0 && index > 0) {
+                          inputs[index - 1].focus();
+                          inputs[index - 1].value = '';
+                      }
+                  } else if (e.key === 'Enter') {
+                      checkWordle();
+                  }
+                  });
+
+                  input.addEventListener('focus', () => {
+                  input.style.caretColor = 'auto'; // Show cursor when focused
+                  });
+                  });
+
+                  // Automatically enable the first row's inputs
+                  document.addEventListener('DOMContentLoaded', () => {
+                  for (let i = 1; i <= 5; i++) {
+                  document.getElementById('row1input' + i).disabled = false;
+                  }
+                  document.getElementById('row1input1').focus();
+                  });
+                  </script>
+                  </body>
+                  </html>
+
