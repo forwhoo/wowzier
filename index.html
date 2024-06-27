@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Spotifly - Edit Song Names</title>
+  <style>
+    :root {
+      --background-color: #121212;
+      --text-color: #ffffff;
+      --secondary-background: #181818;
+      --highlight-color: #1DB954;
+      --hover-color: #282828;
+      --danger-color: #ff4136;
+      --transition: all 0.3s ease;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body, html {
+      font-family: 'Circular Std', 'Helvetica Neue', Arial, sans-serif;
+      background-color: var(--background-color);
+      color: var(--text-color);
+      height: 100%;
+      line-height: 1.6;
+    }
+
+    .app-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 40px 24px;
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 40px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .logo {
+      color: var(--text-color);
+      font-size: 32px;
+      font-weight: bold;
+      letter-spacing: -1px;
+    }
+
+    .btn-group {
+      display: flex;
+      gap: 12px;
+    }
+
+    .btn {
+      background-color: var(--highlight-color);
+      color: #000;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 500px;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: var(--transition);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .btn:hover {
+      background-color: #1ed760;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(29, 185, 84, 0.3);
+    }
+
+    .library-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+    }
+
+    .library-title {
+      font-size: 24px;
+      font-weight: 700;
+    }
+
+    .library-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 24px;
+    }
+
+    .song-item {
+      background-color: var(--secondary-background);
+      border-radius: 8px;
+      padding: 16px;
+      transition: var(--transition);
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .song-item:hover {
+      background-color: var(--hover-color);
+      transform: translateY(-4px);
+      box-shadow: 0 8px 16px rgba(0,0,0,0.3);
+    }
+
+    .song-cover {
+      width: 100%;
+      padding-bottom: 100%;
+      background: linear-gradient(135deg, #450af5, #c4efd9);
+      border-radius: 4px;
+      position: relative;
+      margin-bottom: 16px;
+      overflow: hidden;
+    }
+
+    .cover-letter {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 48px;
+      font-weight: bold;
+      color: rgba(255, 255, 255, 0.8);
+    }
+
+    .song-info {
+      text-align: left;
+    }
+
+    .song-title {
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 4px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .song-artist {
+      font-size: 14px;
+      color: #b3b3b3;
+    }
+
+    .song-title-input {
+      width: 100%;
+      background-color: var(--hover-color);
+      color: var(--text-color);
+      border: none;
+      border-radius: 4px;
+      padding: 4px 8px;
+      font-size: 16px;
+      font-weight: 700;
+      outline: none;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .edit-mode .song-item {
+      animation: shake 0.82s cubic-bezier(.36,.07,.19,.97) both infinite;
+    }
+
+    .delete-btn {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      background-color: var(--danger-color);
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 28px;
+      height: 28px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      display: none;
+      transition: var(--transition);
+      opacity: 0.8;
+    }
+
+    .delete-btn:hover {
+      opacity: 1;
+      transform: scale(1.1);
+    }
+
+    .edit-mode .delete-btn {
+      display: block;
+    }
+
+    .play-btn {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: var(--highlight-color);
+      color: #000;
+      border: none;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      font-size: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      opacity: 0;
+      transition: var(--transition);
+    }
+
+    .song-item:hover .play-btn {
+      opacity: 1;
+    }
+
+    @keyframes shake {
+      10%, 90% {
+        transform: translate3d(-1px, 0, 0);
+      }
+      20%, 80% {
+        transform: translate3d(2px, 0, 0);
+      }
+      30%, 50%, 70% {
+        transform: translate3d(-2px, 0, 0);
+      }
+      40%, 60% {
+        transform: translate3d(2px, 0, 0);
+      }
+    }
+
+    @media (max-width: 768px) {
+      .app-container {
+        padding: 24px 16px;
+      }
+
+      .library-grid {
+        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+        gap: 16px;
+      }
+
+      .btn {
+        padding: 10px 16px;
+        font-size: 12px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="app-container">
+    <div class="header">
+      <div class="logo">Spotifly</div>
+      <div class="btn-group">
+        <button class="btn" onclick="authenticateSpotify()">Connect to Spotify</button>
+        <button id="edit-btn" class="btn">Edit</button>
+      </div>
+    </div>
+    <div class="library-header">
+      <h2 class="library-title">My Library</h2>
+    </div>
+    <div class="library-grid" id="library-grid">
+      <!-- Songs will be dynamically added here -->
+    </div>
+  </div>
+
+  <script>
+    const CLIENT_ID = '5d17d2408f714159b01a86c738be770b';
+    const REDIRECT_URI = 'http://localhost:8888/callback';
+    const SCOPES = 'user-read-private user-read-email user-library-read user-follow-read';
+
+    let db;
+    const DB_NAME = 'SpotiflyDB';
+    const STORE_NAME = 'songs';
+
+    function authenticateSpotify() {
+      const authUrl = `https://accounts.spotify.com/authorize?client_id=${CLIENT_ID}&response_type=token&redirect_uri=${encodeURIComponent(REDIRECT_URI)}&scope=${encodeURIComponent(SCOPES)}`;
+      window.location.href = authUrl;
+    }
+
+    function getAccessToken() {
+      const hash = window.location.hash.substring(1);
+      const params = new URLSearchParams(hash);
+      return params.get('access_token');
+    }
+
+    function fetchDataFromSpotify(token, endpoint) {
+      return fetch(endpoint, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      }).then(response => response.json());
+    }
+
+    function fetchSpotifyData() {
+      const token = getAccessToken();
+      if (!token) return;
+
+      const userEndpoint = 'https://api.spotify.com/v1/me';
+      const playlistsEndpoint = 'https://api.spotify.com/v1/me/playlists';
+      const followingEndpoint = 'https://api.spotify.com/v1/me/following?type=artist';
+
+      Promise.all([
+        fetchDataFromSpotify(token, userEndpoint),
+        fetchDataFromSpotify(token, playlistsEndpoint),
+        fetchDataFromSpotify(token, followingEndpoint)
+      ]).then(([userData, playlistsData, followingData]) => {
+        saveDataToIndexedDB('userData', userData);
+        saveDataToIndexedDB('playlistsData', playlistsData.items);
+        saveDataToIndexedDB('followingData', followingData.artists.items);
+        displayLibrary(playlistsData.items);
+      });
+    }
+
+    function saveDataToIndexedDB(storeName, data) {
+      const transaction = db.transaction([storeName], 'readwrite');
+      const store = transaction.objectStore(storeName);
+      data.forEach(item => store.put(item));
+    }
+
+    function displayLibrary(songs) {
+      const libraryGrid = document.getElementById('library-grid');
+      libraryGrid.innerHTML = '';
+
+      songs.forEach(song => {
+        const songItem = document.createElement('div');
+        songItem.className = 'song-item';
+        songItem.innerHTML = `
+          <div class="song-cover">
+            <div class="cover-letter">${song.name.charAt(0)}</div>
+          </div>
+          <div class="song-info">
+            <input class="song-title-input hidden" value="${song.name}" />
+            <div class="song-title">${song.name}</div>
+            <div class="song-artist">${song.owner.display_name}</div>
+          </div>
+          <button class="delete-btn" onclick="deleteSong('${song.id}')">x</button>
+          <button class="play-btn">▶</button>
+        `;
+        libraryGrid.appendChild(songItem);
+      });
+
+      const editBtn = document.getElementById('edit-btn');
+      editBtn.addEventListener('click', () => {
+        document.body.classList.toggle('edit-mode');
+        const titleInputs = document.querySelectorAll('.song-title-input');
+        const songTitles = document.querySelectorAll('.song-title');
+
+        titleInputs.forEach(input => input.classList.toggle('hidden'));
+        songTitles.forEach(title => title.classList.toggle('hidden'));
+      });
+    }
+
+    function deleteSong(id) {
+      const transaction = db.transaction([STORE_NAME], 'readwrite');
+      const store = transaction.objectStore(STORE_NAME);
+      store.delete(id);
+      displayLibraryFromIndexedDB();
+    }
+
+    function displayLibraryFromIndexedDB() {
+      const transaction = db.transaction([STORE_NAME], 'readonly');
+      const store = transaction.objectStore(STORE_NAME);
+      const request = store.getAll();
+
+      request.onsuccess = () => {
+        displayLibrary(request.result);
+      };
+    }
+
+    window.onload = () => {
+      const request = indexedDB.open(DB_NAME, 1);
+
+      request.onupgradeneeded = event => {
+        db = event.target.result;
+        const userStore = db.createObjectStore('userData', { keyPath: 'id' });
+        const playlistsStore = db.createObjectStore('playlistsData', { keyPath: 'id' });
+        const followingStore = db.createObjectStore('followingData', { keyPath: 'id' });
+        const songStore = db.createObjectStore(STORE_NAME, { keyPath: 'id' });
+      };
+
+      request.onsuccess = event => {
+        db = event.target.result;
+        fetchSpotifyData();
+        displayLibraryFromIndexedDB();
+      };
+    };
+  </script>
+</body>
+</html>
